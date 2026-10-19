@@ -2,5 +2,9 @@
   "name": "care-language-assistant",
   "version": "1.0.0",
   "private": true,
-  "scripts": { "test": "node tests/judging.test.js" }
+  "scripts": {
+    "test": "node tests/judging.test.js && node tests/writing.test.js",
+    "test:judging": "node tests/judging.test.js",
+    "test:writing": "node tests/writing.test.js"
+  }
 }
