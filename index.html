@@ -1,10 +1,13 @@
 <!doctype html>
 <html lang="en-GB">
 <head>
+  <script>(function () { try { var t = localStorage.getItem('cla-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Care Language Assistant · Meadow House</title>
   <meta name="description" content="Review wording in fictional care notes. Flags care terms and opinion wording, explains each suggestion and lets you accept, rewrite or ignore it.">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,6 +15,7 @@
 
   <header class="site-header">
     <div class="wrap">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark mode</button>
       <p class="eyebrow">Meadow House · fictional data only</p>
       <h1>Care Language Assistant</h1>
       <p class="lede">Check a care note for wording to review. Nothing changes until you accept a suggestion, and the original note is always kept.</p>
