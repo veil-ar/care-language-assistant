@@ -3,9 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "node tests/judging.test.js && node tests/writing.test.js && node tests/contrast.test.js",
+    "test": "node tests/judging.test.js && node tests/writing.test.js && node tests/contrast.test.js && node tests/a11y.test.js",
     "test:judging": "node tests/judging.test.js",
     "test:writing": "node tests/writing.test.js",
-    "test:contrast": "node tests/contrast.test.js"
+    "test:contrast": "node tests/contrast.test.js",
+    "test:a11y": "node tests/a11y.test.js"
   }
 }

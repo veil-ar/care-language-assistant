@@ -55,15 +55,18 @@ Checking a new note discards all earlier accepted and ignored decisions.
 - `data/writing-library.js`: word lists, pattern lists and category copy (data only)
 - `app.js`: UI state, rendering, accessibility announcements
 - `index.html`, `styles.css`: interface
+- `fonts/`: OpenDyslexic for the dyslexia-friendly font toggle
 - `tests/judging.test.js`: the ten published judging tests as automated checks
 - `tests/writing.test.js`: the writing layers, including no-false-positive checks against all ten judging inputs
 
 ## Tests
 
 ```
-npm test            # both suites
+npm test            # all suites
 npm run test:judging
 npm run test:writing
+npm run test:contrast   # WCAG ratios for colour tokens, light and dark
+npm run test:a11y       # header toggles, head script, icon SVGs
 ```
 
 Requires Node 16+ (lookbehind in regular expressions). 26 checks pass: the ten judging scenarios plus a plural/capitalisation check, and the writing layers including the host sentence, quoted speech, and proof that the ten judging inputs produce no writing items that overlap a care term.
@@ -71,6 +74,10 @@ Requires Node 16+ (lookbehind in regular expressions). 26 checks pass: the ten j
 ## Accessibility
 
 Labelled controls with descriptive accessible names, visible focus rings, keyboard-only operation, an error message linked to the note field (`aria-describedby` and `aria-invalid`), a live status region announcing check results and each Accept/Ignore, and focus moving to the named **Care wording suggestions** heading after checking. The guided rewrite box uses real labelled `<input>` fields and a polite live region for the preview. Text meets 4.5:1 contrast and is at least 13px. The layout works from 390px wide to desktop without horizontal scrolling.
+
+## Credits
+
+The dyslexia-friendly font is [OpenDyslexic](https://opendyslexic.org) by Abbie Gonzalez, bundled in `fonts/` under the SIL Open Font License 1.1 (`fonts/OFL.txt`).
 
 ## Data
 

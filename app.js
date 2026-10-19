@@ -718,7 +718,12 @@
   }
 
   function syncThemeButton() {
-    if (themeBtn) themeBtn.setAttribute('aria-pressed', isDark() ? 'true' : 'false');
+    if (!themeBtn) return;
+    var dark = isDark();
+    var label = dark ? 'Switch to light mode' : 'Switch to dark mode';
+    themeBtn.setAttribute('aria-pressed', dark ? 'true' : 'false');
+    themeBtn.setAttribute('aria-label', label);
+    themeBtn.title = label;
   }
 
   if (themeBtn) {
@@ -734,6 +739,39 @@
       else if (darkQuery.addListener) darkQuery.addListener(onSystemChange);
     }
     syncThemeButton();
+  }
+
+  /* ---------- Font ---------- */
+  // Dyslexia-friendly font. The inline script in <head> applies a saved choice first.
+  var FONT_KEY = 'cla-font';
+  var fontBtn = document.getElementById('font-toggle');
+
+  function isDyslexic() {
+    return document.documentElement.getAttribute('data-font') === 'dyslexic';
+  }
+
+  function syncFontButton() {
+    if (!fontBtn) return;
+    var on = isDyslexic();
+    var label = on ? 'Use standard font' : 'Use dyslexia-friendly font';
+    fontBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+    fontBtn.setAttribute('aria-label', label);
+    fontBtn.title = label;
+  }
+
+  if (fontBtn) {
+    fontBtn.addEventListener('click', function () {
+      var on = !isDyslexic();
+      if (on) document.documentElement.setAttribute('data-font', 'dyslexic');
+      else document.documentElement.removeAttribute('data-font');
+      try {
+        if (on) localStorage.setItem(FONT_KEY, 'dyslexic');
+        else localStorage.removeItem(FONT_KEY);
+      } catch (err) { /* choice lasts this page only */ }
+      syncFontButton();
+      announce(on ? 'Dyslexia-friendly font on' : 'Standard font restored');
+    });
+    syncFontButton();
   }
 
   // Expose for manual testing in the console.
