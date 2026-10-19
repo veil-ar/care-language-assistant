@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Care Language Assistant · Meadow House</title>
+  <meta name="description" content="Review wording in fictional care notes. Flags care terms, explains suggestions and lets you accept or ignore each one.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#note-input">Skip to note</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <p class="eyebrow">Meadow House · fictional data only</p>
+      <h1>Care Language Assistant</h1>
+      <p class="lede">Check a care note for wording to review. Nothing changes until you accept a suggestion, and the original note is always kept.</p>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <!-- 1. Enter note -->
+    <section class="card" aria-labelledby="input-heading">
+      <h2 id="input-heading"><span class="step" aria-hidden="true">1</span>Write or paste a note</h2>
+      <form id="check-form" novalidate>
+        <label for="note-input" class="field-label">Care note</label>
+        <p id="note-help" class="help">Checks 10 care wording pairs, such as “client” → “person we support”. Words inside "double quotes" are left as said.</p>
+        <textarea id="note-input" name="note" rows="6" spellcheck="true"
+          aria-describedby="note-help note-error"></textarea>
+        <p id="note-error" class="error" role="alert" hidden></p>
+        <p id="stale-notice" class="notice" hidden>The note has changed since it was checked. Select <strong>Check note</strong> to review the new text.</p>
+        <div class="button-row">
+          <button type="submit" class="btn btn-primary" id="check-btn">Check note</button>
+          <button type="button" class="btn btn-secondary" id="example-btn">Load example note</button>
+          <button type="button" class="btn btn-secondary" id="clear-btn">Clear</button>
+        </div>
+        <p class="help small">Tip: press Ctrl + Enter (or ⌘ + Enter) in the note to check it.</p>
+      </form>
+    </section>
+
+    <!-- Live status for screen readers and sighted users -->
+    <div id="status" class="status" role="status" aria-live="polite" aria-atomic="true"></div>
+
+    <div id="results" class="results" hidden>
+      <!-- 2. Suggestions -->
+      <section class="card" aria-labelledby="suggestions-heading">
+        <h2 id="suggestions-heading" tabindex="-1"><span class="step" aria-hidden="true">2</span>Suggestions</h2>
+        <p id="summary" class="summary"></p>
+        <p class="jump-link"><a href="#versions">Jump to original and reviewed versions ↓</a></p>
+        <ol id="suggestion-list" class="suggestion-list"></ol>
+        <p id="none-found" class="none-found" hidden>
+          <strong>No care terms found.</strong> This note has none of the 10 care wording pairs, so there is nothing to review. Both versions below show the note unchanged.
+        </p>
+        <p id="quoted-info" class="help" hidden></p>
+      </section>
+
+      <!-- 3. Versions -->
+      <section class="card versions-card" id="versions" aria-labelledby="versions-heading" tabindex="-1">
+        <h2 id="versions-heading"><span class="step" aria-hidden="true">3</span>Original and reviewed versions</h2>
+        <div class="versions">
+          <article class="version" aria-labelledby="original-heading">
+            <div class="version-head">
+              <h3 id="original-heading">Original note</h3>
+              <span class="tag tag-locked">Read-only</span>
+            </div>
+            <p class="help small">Snapshot taken when you selected Check note. Highlighted words have suggestions.</p>
+            <div id="original-text" class="note-text" role="region" aria-labelledby="original-heading"></div>
+          </article>
+          <article class="version" aria-labelledby="reviewed-heading">
+            <div class="version-head">
+              <h3 id="reviewed-heading">Reviewed note</h3>
+              <span class="tag tag-live" id="change-count">0 changes</span>
+            </div>
+            <p class="help small">Updates as you accept suggestions. <span class="legend-accepted">Green</span> = accepted change.</p>
+            <div id="reviewed-text" class="note-text" role="region" aria-labelledby="reviewed-heading"></div>
+            <div class="button-row">
+              <button type="button" class="btn btn-secondary" id="copy-btn">Copy reviewed note</button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Workshop wording preferences for fictional care narratives. Suggestions change wording only — never names, times, actions, injuries or who said what. Do not enter real care records.</p>
+    </div>
+  </footer>
+
+  <script src="matcher.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
