@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Care Language Assistant · Meadow House</title>
-  <meta name="description" content="Review wording in fictional care notes. Flags care terms, explains suggestions and lets you accept or ignore each one.">
+  <meta name="description" content="Review wording in fictional care notes. Flags care terms and opinion wording, explains each suggestion and lets you accept, rewrite or ignore it.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -24,7 +24,7 @@
       <h2 id="input-heading"><span class="step" aria-hidden="true">1</span>Write or paste a note</h2>
       <form id="check-form" novalidate>
         <label for="note-input" class="field-label">Care note</label>
-        <p id="note-help" class="help">Checks 10 care wording pairs, such as “client” → “person we support”. Words inside "double quotes" are left as said.</p>
+        <p id="note-help" class="help">Checks 10 care wording pairs, such as “client” → “person we support”, then checks the writing for opinion, speculation and vague wording. Words inside "double quotes" are left as said.</p>
         <textarea id="note-input" name="note" rows="6" spellcheck="true"
           aria-describedby="note-help note-error"></textarea>
         <p id="note-error" class="error" role="alert" hidden></p>
@@ -43,8 +43,8 @@
 
     <div id="results" class="results" hidden>
       <!-- 2. Suggestions -->
-      <section class="card" aria-labelledby="suggestions-heading">
-        <h2 id="suggestions-heading" tabindex="-1"><span class="step" aria-hidden="true">2</span>Suggestions</h2>
+      <section class="card" id="care-card" aria-labelledby="suggestions-heading">
+        <h2 id="suggestions-heading" tabindex="-1"><span class="step" aria-hidden="true">2</span>Care wording suggestions</h2>
         <p id="summary" class="summary"></p>
         <p class="jump-link"><a href="#versions">Jump to original and reviewed versions ↓</a></p>
         <ol id="suggestion-list" class="suggestion-list"></ol>
@@ -54,9 +54,21 @@
         <p id="quoted-info" class="help" hidden></p>
       </section>
 
-      <!-- 3. Versions -->
+      <!-- 3. Writing suggestions -->
+      <section class="card" id="writing-card" aria-labelledby="writing-heading">
+        <h2 id="writing-heading"><span class="step" aria-hidden="true">3</span>Writing suggestions</h2>
+        <p class="pill-row"><span class="pill" id="fact-check"></span></p>
+        <p class="help">Opinion wording is flagged so the note can say what was seen and heard instead. Nothing is rewritten for you: any detail you add is built only from what you type.</p>
+        <ol id="writing-list" class="suggestion-list"></ol>
+        <p id="writing-none" class="none-found" hidden>
+          <strong>No opinion or speculation wording found.</strong> This note reads as a record of what happened.
+        </p>
+        <p id="writing-quoted" class="help" hidden></p>
+      </section>
+
+      <!-- 4. Versions -->
       <section class="card versions-card" id="versions" aria-labelledby="versions-heading" tabindex="-1">
-        <h2 id="versions-heading"><span class="step" aria-hidden="true">3</span>Original and reviewed versions</h2>
+        <h2 id="versions-heading"><span class="step" aria-hidden="true">4</span>Original and reviewed versions</h2>
         <div class="versions">
           <article class="version" aria-labelledby="original-heading">
             <div class="version-head">
@@ -89,6 +101,8 @@
   </footer>
 
   <script src="matcher.js"></script>
+  <script src="data/writing-library.js"></script>
+  <script src="writing-checks.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
