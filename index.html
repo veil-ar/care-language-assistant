@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en-GB">
 <head>
+  <script>(function () { try { var t = localStorage.getItem('cla-theme'); if (t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t); } catch (e) {} })();</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Care Language Assistant · Meadow House</title>
@@ -14,6 +15,7 @@
 
   <header class="site-header">
     <div class="wrap">
+      <button type="button" class="theme-toggle" id="theme-toggle" aria-pressed="false">Dark mode</button>
       <p class="eyebrow">Meadow House · fictional data only</p>
       <h1>Care Language Assistant</h1>
       <p class="lede">Check a care note for wording to review. Nothing changes until you accept a suggestion, and the original note is always kept.</p>

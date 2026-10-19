@@ -152,12 +152,27 @@
     var a = Math.max(0, s.start - radius);
     var b = Math.min(text.length, s.end + radius);
     var frag = document.createDocumentFragment();
-    frag.appendChild(document.createTextNode('In context: ' + (a > 0 ? '…' : '') + text.slice(a, s.start)));
+    appendWithTimes(frag, 'In context: ' + (a > 0 ? '…' : '') + text.slice(a, s.start));
     var mark = document.createElement('mark');
     mark.textContent = text.slice(s.start, s.end);
     frag.appendChild(mark);
-    frag.appendChild(document.createTextNode(text.slice(s.end, b) + (b < text.length ? '…' : '')));
+    appendWithTimes(frag, text.slice(s.end, b) + (b < text.length ? '…' : ''));
     return frag;
+  }
+
+  /** Append text, wrapping clock times (18:40) in a span so they set in the mono face. */
+  function appendWithTimes(parent, str) {
+    var re = /\b\d{1,2}[:.]\d{2}\b/g;
+    var last = 0, m;
+    while ((m = re.exec(str)) !== null) {
+      if (m.index > last) parent.appendChild(document.createTextNode(str.slice(last, m.index)));
+      var t = document.createElement('span');
+      t.className = 'num';
+      t.textContent = m[0];
+      parent.appendChild(t);
+      last = m.index + m[0].length;
+    }
+    if (last < str.length) parent.appendChild(document.createTextNode(str.slice(last)));
   }
 
   function button(label, cls, aria, action, id) {
@@ -681,6 +696,45 @@
       } else { fail(); }
     } catch (err) { fail(); }
   });
+
+  /* ---------- Theme ---------- */
+  // The inline script in <head> applies a saved choice before first paint. With no
+  // saved choice the theme follows the system, and the toggle mirrors it.
+  var THEME_KEY = 'cla-theme';
+  var themeBtn = document.getElementById('theme-toggle');
+  var darkQuery = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+
+  function savedTheme() {
+    try {
+      var t = localStorage.getItem(THEME_KEY);
+      return t === 'dark' || t === 'light' ? t : null;
+    } catch (err) { return null; }
+  }
+
+  function isDark() {
+    var t = document.documentElement.getAttribute('data-theme');
+    if (t === 'dark' || t === 'light') return t === 'dark';
+    return !!(darkQuery && darkQuery.matches);
+  }
+
+  function syncThemeButton() {
+    if (themeBtn) themeBtn.setAttribute('aria-pressed', isDark() ? 'true' : 'false');
+  }
+
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function () {
+      var next = isDark() ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      try { localStorage.setItem(THEME_KEY, next); } catch (err) { /* choice lasts this page only */ }
+      syncThemeButton();
+    });
+    if (darkQuery) {
+      var onSystemChange = function () { if (!savedTheme()) syncThemeButton(); };
+      if (darkQuery.addEventListener) darkQuery.addEventListener('change', onSystemChange);
+      else if (darkQuery.addListener) darkQuery.addListener(onSystemChange);
+    }
+    syncThemeButton();
+  }
 
   // Expose for manual testing in the console.
   window.CareApp = { getState: function () { return state; }, reviewed: function () {
